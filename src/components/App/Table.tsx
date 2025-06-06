@@ -73,7 +73,7 @@ const Home = () => {
         {
             accessorKey: 'name',
             id: 'name',
-            header: '',
+            header: 'Name',
             enableSorting: false,
             maxSize: 10,
             size: 10,
@@ -94,7 +94,7 @@ const Home = () => {
         {
             accessorKey: 'metadata.private.email',
             id: 'metadata.private.email',
-            header: '',
+            header: 'Email',
             enableSorting: false,
             filterFn: 'includesString',
         },
@@ -102,31 +102,28 @@ const Home = () => {
         {
             accessorKey: 'action',
             id: 'action',
-            header: '',
+            header: 'Actions',
             maxSize: 10,
             enableSorting: false,
             cell: ({ row }) => {
                 return (
-                    <div className='flex items-center justify-center gap-x-3 whitespace-nowrap'>
+                    <div className='flex items-center justify-start gap-x-3 whitespace-nowrap'>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant='secondary'
                                     disabled={isUpdatingRole}
-                                    className='min-w-[110px] capitalize'
-                                >
+                                    className='min-w-[110px] capitalize'>
                                     {row.original.role} <CaretDownIcon />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align='end'>
                                 <DropdownMenuItem
-                                    onClick={() => handleUpdateRole(row.original.uid, 'admin')}
-                                >
+                                    onClick={() => handleUpdateRole(row.original.uid, 'admin')}>
                                     Admin
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                    onClick={() => handleUpdateRole(row.original.uid, 'member')}
-                                >
+                                    onClick={() => handleUpdateRole(row.original.uid, 'member')}>
                                     Member
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -141,8 +138,7 @@ const Home = () => {
                             size='icon'
                             disabled={isDeleting}
                             title='delete'
-                            onClick={() => handleDeleteUser(row.original.uid)}
-                        >
+                            onClick={() => handleDeleteUser(row.original.uid)}>
                             <UserRoundMinus size={12} className='text-destructive' />
                         </Button>
                     </div>
@@ -156,7 +152,6 @@ const Home = () => {
             data={users?.data ?? []}
             isLoading={isUsersLoading}
             withSearch
-            withHeader={false}
             title={
                 <div>
                     <span className='text-muted-foreground'>Manage members access</span>
