@@ -1,19 +1,18 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-    output: "standalone",
-    reactStrictMode: process.env.NODE_ENV === "development",
+    output: 'standalone',
+    reactStrictMode: process.env.NODE_ENV === 'development',
     productionBrowserSourceMaps: true,
     images: {
         remotePatterns: [
             {
-                protocol: "https",
-                hostname: "*.cometchat.io",
-                pathname: "/**",
+                protocol: 'https',
+                hostname: '*.cometchat.io',
+                pathname: '/**',
             },
         ],
     },
 };
 
 export default nextConfig;
-

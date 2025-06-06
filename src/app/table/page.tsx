@@ -1,2 +1,1 @@
-export { default } from "@/components/App/Table";
-
+export { default } from '@/components/App/Table';

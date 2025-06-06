@@ -1,6 +1,6 @@
 const Routes = {
-    LIST: "/",
-    TABLE: "/table",
+    LIST: '/',
+    TABLE: '/table',
 } as const;
 
 export default Routes;

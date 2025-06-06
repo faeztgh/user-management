@@ -1,15 +1,15 @@
-"use client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React, { PropsWithChildren, Suspense } from "react";
-import { ThemeProvider, ThemeProviderProps } from "next-themes";
-import { Toaster as Sooner } from "@/components/ui/sonner";
+'use client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React, { PropsWithChildren, Suspense } from 'react';
+import { ThemeProvider, ThemeProviderProps } from 'next-themes';
+import { Toaster as Sooner } from '@/components/ui/sonner';
 
 export const queryClient = new QueryClient();
 const theme: ThemeProviderProps = {
-    attribute: "class",
-    defaultTheme: "light",
+    attribute: 'class',
+    defaultTheme: 'light',
     enableSystem: false,
-    themes: ["light"],
+    themes: ['light'],
 };
 const Providers = (props: PropsWithChildren) => {
     const { children } = props;

@@ -1,12 +1,11 @@
-import { useMutation as reactQueryUseMutation } from "@tanstack/react-query";
-import apiClient from "./http-common";
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import { redirect } from "next/navigation";
+import { useMutation as reactQueryUseMutation } from '@tanstack/react-query';
+import apiClient from './http-common';
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface UseMutationProps extends AxiosRequestConfig {
     url?: string;
     retry?: true | number;
-    method: "post" | "put" | "delete" | "get" | "patch";
+    method: 'post' | 'put' | 'delete' | 'get' | 'patch';
     params?: any;
     headers?: any;
     onError?: (err: any) => void;
@@ -28,11 +27,7 @@ const useMutation = <T = any>(props: UseMutationProps) => {
         headers = {},
         baseURL = process.env.NEXT_PUBLIC_APP_API_URL,
     } = props;
-    const mutationResult = reactQueryUseMutation<
-        T,
-        AxiosError,
-        MutationFunctionParams
-    >({
+    const mutationResult = reactQueryUseMutation<T, AxiosError, MutationFunctionParams>({
         mutationFn: async (variables: MutationFunctionParams): Promise<T> => {
             const { mutationOptions, body } = variables;
             const response: AxiosResponse<T> = await apiClient.request<T>({
@@ -43,13 +38,13 @@ const useMutation = <T = any>(props: UseMutationProps) => {
                 data: body,
                 headers: {
                     ...headers,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
                     apikey,
                 },
                 baseURL: baseURL ?? process.env.NEXT_PUBLIC_APP_API_URL,
             });
-            return response.data; // Return only the data
+            return response.data;
         },
 
         retry,

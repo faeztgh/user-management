@@ -1,5 +1,5 @@
-"use client";
-import React, { ReactNode } from "react";
+'use client';
+import React, { ReactNode } from 'react';
 import {
     Drawer,
     DrawerContent,
@@ -7,30 +7,26 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "@/components/ui/drawer";
-import AddEditMemberForm from "./List/AddEditMember.form";
-import { IUser } from "@/types/response-types/users";
+} from '@/components/ui/drawer';
+import AddEditMemberForm from './List/AddEditMember.form';
+import { IUser } from '@/types/response-types/users';
 
 interface IAddEditMemberDrawerProps {
     children: ReactNode;
-    mode: "add" | "edit";
+    mode: 'add' | 'edit';
     user?: IUser;
 }
 const AddEditMemberDrawer = (props: IAddEditMemberDrawerProps) => {
     const { children, mode, user } = props;
     return (
         <Drawer>
-            <DrawerTrigger className="cursor-pointer" asChild>
+            <DrawerTrigger className='cursor-pointer' asChild>
                 {children}
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader>
-                    <DrawerTitle className="capitalize">
-                        {mode} member
-                    </DrawerTitle>
-                    <DrawerDescription className="hidden">
-                        {mode} member
-                    </DrawerDescription>
+                    <DrawerTitle className='capitalize'>{mode} member</DrawerTitle>
+                    <DrawerDescription className='hidden'>{mode} member</DrawerDescription>
                 </DrawerHeader>
                 <AddEditMemberForm mode={mode} user={user} />
             </DrawerContent>

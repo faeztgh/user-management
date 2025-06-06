@@ -1,21 +1,21 @@
-import React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import { Button } from "@/components/ui/button";
-import { UserRoundMinus } from "lucide-react";
-import { IUser } from "@/types/response-types/users";
-import { cn } from "@/lib/utils";
-import useMutation from "@/lib/api/useMutation";
-import { toast } from "sonner";
-import ApiRoutes from "@/constants/ApiRoutes";
+import React from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
+import { Button } from '@/components/ui/button';
+import { UserRoundMinus } from 'lucide-react';
+import { IUser } from '@/types/response-types/users';
+import { cn } from '@/lib/utils';
+import useMutation from '@/lib/api/useMutation';
+import { toast } from 'sonner';
+import ApiRoutes from '@/constants/ApiRoutes';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { CaretDownIcon } from "@radix-ui/react-icons";
-import { queryClient } from "@/components/layouts/Providers";
-import AddEditMemberDrawer from "../AddEditMemberDrawer";
+} from '@/components/ui/dropdown-menu';
+import { CaretDownIcon } from '@radix-ui/react-icons';
+import { queryClient } from '@/components/layouts/Providers';
+import AddEditMemberDrawer from '../AddEditMemberDrawer';
 
 interface IListItemProps {
     user: IUser;
@@ -27,15 +27,15 @@ const ListItem = (props: IListItemProps) => {
     const { role, uid, name, avatar } = user;
 
     const { mutate: deleteUser, isPending: isDeleting } = useMutation({
-        method: "delete",
+        method: 'delete',
     });
 
     const { mutate: updateUserRole, isPending: isUpdatingRole } = useMutation({
-        method: "put",
+        method: 'put',
     });
     const refetchList = () => {
         queryClient.refetchQueries({
-            queryKey: ["get_users_list"],
+            queryKey: ['get_users_list'],
         });
     };
     const handleDeleteUser = (uid: string) => {
@@ -48,13 +48,13 @@ const ListItem = (props: IListItemProps) => {
             {
                 onSuccess: () => {
                     refetchList();
-                    toast.success("Removed");
+                    toast.success('Removed');
                 },
             }
         );
     };
 
-    const handleUpdateRole = (id: string, newRole: IUser["role"]) => {
+    const handleUpdateRole = (id: string, newRole: IUser['role']) => {
         updateUserRole(
             {
                 mutationOptions: {
@@ -65,7 +65,7 @@ const ListItem = (props: IListItemProps) => {
             {
                 onSuccess: () => {
                     refetchList();
-                    toast.success("Updated");
+                    toast.success('Updated');
                 },
             }
         );
@@ -74,51 +74,47 @@ const ListItem = (props: IListItemProps) => {
     return (
         <div
             className={cn(
-                "flex justify-between py-3 px-5 items-center border-b",
-                index === 0 ? "border-t" : "border-t-0"
+                'flex items-center justify-between border-b px-5 py-3',
+                index === 0 ? 'border-t' : 'border-t-0'
             )}
         >
-            <AddEditMemberDrawer mode="edit" user={user}>
-                <div className="items-center w-full gap-2 flex">
+            <AddEditMemberDrawer mode='edit' user={user}>
+                <div className='flex w-full items-center gap-2'>
                     <Avatar>
                         <AvatarImage src={avatar} />
                         <AvatarFallback>{name.substring(0, 1)}</AvatarFallback>
                     </Avatar>
-                    <span className=" min-w-[150px] w-fit">{name}</span>
+                    <span className='w-fit min-w-[150px]'>{name}</span>
                     {user?.metadata?.private?.email && (
-                        <span className="text-muted-foreground ml-8">
+                        <span className='ml-8 text-muted-foreground'>
                             {user?.metadata?.private?.email}
                         </span>
                     )}
                 </div>
             </AddEditMemberDrawer>
 
-            <div className="flex justify-center items-center gap-x-3">
+            <div className='flex items-center justify-center gap-x-3'>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild disabled={isUpdatingRole}>
-                        <Button variant="secondary">
+                        <Button variant='secondary'>
                             {role} <CaretDownIcon />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                            onClick={() => handleUpdateRole(uid, "admin")}
-                        >
+                    <DropdownMenuContent align='end'>
+                        <DropdownMenuItem onClick={() => handleUpdateRole(uid, 'admin')}>
                             Admin
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => handleUpdateRole(uid, "member")}
-                        >
+                        <DropdownMenuItem onClick={() => handleUpdateRole(uid, 'member')}>
                             Member
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
                 <Button
-                    variant="ghost"
-                    size="icon"
+                    variant='ghost'
+                    size='icon'
                     disabled={isDeleting}
                     onClick={() => handleDeleteUser(uid)}
-                    title="delete"
+                    title='delete'
                 >
                     <UserRoundMinus size={12} />
                 </Button>

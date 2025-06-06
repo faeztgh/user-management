@@ -1,18 +1,18 @@
-import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { Cross2Icon, MixerHorizontalIcon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { Cross2Icon, MixerHorizontalIcon } from '@radix-ui/react-icons';
+import { Table } from '@tanstack/react-table';
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { TableFacetedFilter } from "./TableFacetedFilter";
-import { TFilters } from "./types";
-import { ReactNode } from "react";
+} from '../ui/dropdown-menu';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { TableFacetedFilter } from './TableFacetedFilter';
+import { TFilters } from './types';
+import { ReactNode } from 'react';
 
 interface DataTableViewOptionsProps<TData> {
     table: Table<TData>;
@@ -23,38 +23,24 @@ interface DataTableViewOptionsProps<TData> {
     title?: ReactNode;
 }
 
-export function TableViewOptions<TData>(
-    props: DataTableViewOptionsProps<TData>
-) {
-    const {
-        table,
-        withSearch,
-        filters,
-        withHideColumn = false,
-        topActions,
-        title,
-    } = props;
+export function TableViewOptions<TData>(props: DataTableViewOptionsProps<TData>) {
+    const { table, withSearch, filters, withHideColumn = false, topActions, title } = props;
     const isFiltered = table.getState().columnFilters.length > 0;
     const membersCount = table.getFilteredRowModel().rows.length;
-    const isTopEmpty =
-        !withHideColumn && !withSearch && !topActions && !filters;
+    const isTopEmpty = !withHideColumn && !withSearch && !topActions && !filters;
     return (
-        <div className={`flex items-center ${isTopEmpty ? "" : "py-4"}`}>
+        <div className={`flex items-center ${isTopEmpty ? '' : 'py-4'}`}>
             {/* Filter start */}
             {title && title}
-            <div className="flex ml-auto items-center gap-x-5 justify-between">
-                <span className="text-muted-foreground">
-                    {membersCount} members
-                </span>
-                <div className="flex w-fit flex-wrap items-center gap-x-3">
+            <div className='ml-auto flex items-center justify-between gap-x-5'>
+                <span className='text-muted-foreground'>{membersCount} members</span>
+                <div className='flex w-fit flex-wrap items-center gap-x-3'>
                     {withSearch && (
                         <Input
                             placeholder={`search...`}
-                            type="search"
-                            className="mr-3"
-                            onChange={(event) =>
-                                table.setGlobalFilter(event.target.value)
-                            }
+                            type='search'
+                            className='mr-3'
+                            onChange={event => table.setGlobalFilter(event.target.value)}
                         />
                     )}
 
@@ -76,12 +62,12 @@ export function TableViewOptions<TData>(
 
                             {isFiltered && (
                                 <Button
-                                    variant="ghost"
+                                    variant='ghost'
                                     onClick={() => table.resetColumnFilters()}
-                                    className="h-8 px-2 lg:px-3"
+                                    className='h-8 px-2 lg:px-3'
                                 >
-                                    {"reset"}
-                                    <Cross2Icon className="ml-2 h-4 w-4" />
+                                    {'reset'}
+                                    <Cross2Icon className='ml-2 h-4 w-4' />
                                 </Button>
                             )}
                         </>
@@ -94,36 +80,27 @@ export function TableViewOptions<TData>(
             {withHideColumn && (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="ml-auto h-8 lg:flex"
-                        >
-                            <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-                            {"columns"}
+                        <Button variant='outline' size='sm' className='ml-auto h-8 lg:flex'>
+                            <MixerHorizontalIcon className='mr-2 h-4 w-4' />
+                            {'columns'}
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[150px]">
-                        <DropdownMenuLabel>
-                            {"phrase.toggleColumns"}
-                        </DropdownMenuLabel>
+                    <DropdownMenuContent align='end' className='w-[150px]'>
+                        <DropdownMenuLabel>{'phrase.toggleColumns'}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         {table
                             .getAllColumns()
                             .filter(
-                                (column) =>
-                                    typeof column.accessorFn !== "undefined" &&
-                                    column.getCanHide()
+                                column =>
+                                    typeof column.accessorFn !== 'undefined' && column.getCanHide()
                             )
-                            .map((column) => {
+                            .map(column => {
                                 return (
                                     <DropdownMenuCheckboxItem
                                         key={column.id}
-                                        className="capitalize"
+                                        className='capitalize'
                                         checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
+                                        onCheckedChange={value => column.toggleVisibility(!!value)}
                                     >
                                         {column.id}
                                     </DropdownMenuCheckboxItem>

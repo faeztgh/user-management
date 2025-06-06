@@ -1,8 +1,8 @@
-import axios from "axios";
-import { faker } from "@faker-js/faker";
+import axios from 'axios';
+import { faker } from '@faker-js/faker';
 
-const roles = ["admin", "member"];
-const statuses = ["online", "offline"];
+const roles = ['admin', 'member'];
+const statuses = ['online', 'offline'];
 const usersCount = 100;
 
 function generateFakeUser() {
@@ -17,8 +17,8 @@ function generateFakeUser() {
         createdAt: faker.date.past({ years: 1 }).getTime(),
         meta: {
             email: faker.internet.email({
-                firstName: name.split(" ")[0],
-                lastName: name.split(" ")[1] || "",
+                firstName: name.split(' ')[0],
+                lastName: name.split(' ')[1] || '',
             }),
         },
     };
@@ -36,24 +36,25 @@ async function uploadUsers() {
             name: user.name,
             avatar: user.avatar,
             metadata: {
-                "@private": {
-                    email: user.meta?.email || "",
+                '@private': {
+                    email: user.meta?.email || '',
                     contactNumber: faker.phone.number(),
                 },
             },
         };
 
         try {
-            const response = await axios.post(url, payload, {
+            await axios.post(url, payload, {
                 headers: {
-                    accept: "application/json",
-                    "content-type": "application/json",
+                    accept: 'application/json',
+                    'content-type': 'application/json',
                     apikey: apiKey,
                 },
             });
-
-            console.log(`User ${user.uid} created:`, response.data);
-        } catch (error) {}
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log('Error uploading user:', error);
+        }
     }
 }
 

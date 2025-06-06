@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import apiClient from "./http-common";
-import { AxiosError, AxiosResponse } from "axios";
-import { useMemo } from "react";
-import { makeArrayCamelCase, makeObjectCamelCase } from "../utils";
+import { useQuery } from '@tanstack/react-query';
+import apiClient from './http-common';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useMemo } from 'react';
+import { makeArrayCamelCase, makeObjectCamelCase } from '../utils';
 
 type Props = {
     url: string;
@@ -10,7 +10,7 @@ type Props = {
     queryKey: string[];
     params?: any;
     retry?: boolean | number;
-    method?: "get";
+    method?: 'get';
     load?: boolean;
     refetchInterval?: number;
     onError?: (err: any) => void;
@@ -22,7 +22,7 @@ const useApi = <T>(props: Props) => {
         queryKey,
         params,
         refetchInterval,
-        method = "get",
+        method = 'get',
         retry = false,
         load = true,
         baseUrl,
@@ -36,7 +36,7 @@ const useApi = <T>(props: Props) => {
                 method: method,
                 params: params,
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                     apiKey: process.env.NEXT_PUBLIC_APP_REST_API_KEY,
                 },
                 signal,
@@ -53,7 +53,7 @@ const useApi = <T>(props: Props) => {
         if (apiResult?.data?.data) {
             if (Array.isArray(apiResult.data.data)) {
                 tempData = makeArrayCamelCase(apiResult.data.data);
-            } else if (typeof apiResult.data.data === "object") {
+            } else if (typeof apiResult.data.data === 'object') {
                 tempData = makeObjectCamelCase(apiResult.data.data);
             }
         }
