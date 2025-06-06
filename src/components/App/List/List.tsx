@@ -105,13 +105,13 @@ const List = () => {
 
     return (
         <div>
-            <div className='mb-8 flex items-end justify-between'>
+            <div className='mb-8 flex flex-col items-start justify-start space-y-3 md:flex-row md:items-end md:justify-between md:space-y-0'>
                 <div>
                     <span className='text-muted-foreground'>Manage members access</span>
                     <h2 className='text-3xl font-semibold'>Members</h2>
                 </div>
 
-                <div className='flex items-center justify-center gap-x-3'>
+                <div className='flex flex-col items-start justify-start gap-x-3 gap-y-3 md:flex-row md:items-center md:justify-center md:gap-y-0'>
                     <span className='text-muted-foreground'>{filteredUsers.length} members</span>
                     <div className='relative'>
                         <Input
@@ -160,8 +160,7 @@ const List = () => {
                             {fakeArray(users.length === 0 ? 20 : 5).map((_, index) => (
                                 <div
                                     key={index}
-                                    className='!m-0 flex items-center justify-between border-b px-5 py-2'
-                                >
+                                    className='!m-0 flex items-center justify-between border-b px-5 py-2'>
                                     <div className='flex items-center gap-2'>
                                         <Skeleton className='h-10 w-10 rounded-full' />
                                         <div className='flex items-center justify-center gap-x-5 space-y-1'>

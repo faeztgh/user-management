@@ -74,29 +74,34 @@ const ListItem = (props: IListItemProps) => {
     return (
         <div
             className={cn(
-                'flex items-center justify-between border-b px-5 py-3',
+                'flex items-center justify-between whitespace-nowrap border-b px-5 py-3',
                 index === 0 ? 'border-t' : 'border-t-0'
-            )}
-        >
+            )}>
             <AddEditMemberDrawer mode='edit' user={user}>
-                <div className='flex w-full items-center gap-2'>
+                <div className='flex items-center gap-2 md:w-full'>
                     <Avatar>
                         <AvatarImage src={avatar} />
                         <AvatarFallback>{name.substring(0, 1)}</AvatarFallback>
                     </Avatar>
-                    <span className='w-fit min-w-[150px]'>{name}</span>
+                    <span
+                        className='w-[100px] truncate text-sm md:w-[150px] md:text-base'
+                        title={name}>
+                        {name}
+                    </span>
                     {user?.metadata?.private?.email && (
-                        <span className='ml-8 text-muted-foreground'>
+                        <span
+                            className='ml-8 w-[150px] truncate text-xs text-muted-foreground md:w-[300px] md:text-base'
+                            title={user?.metadata?.private?.email}>
                             {user?.metadata?.private?.email}
                         </span>
                     )}
                 </div>
             </AddEditMemberDrawer>
 
-            <div className='flex items-center justify-center gap-x-3'>
+            <div className='flex min-w-[200px] items-center justify-center gap-x-3'>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild disabled={isUpdatingRole}>
-                        <Button variant='secondary'>
+                        <Button variant='secondary' className='min-w-[110px] capitalize'>
                             {role} <CaretDownIcon />
                         </Button>
                     </DropdownMenuTrigger>
@@ -114,8 +119,7 @@ const ListItem = (props: IListItemProps) => {
                     size='icon'
                     disabled={isDeleting}
                     onClick={() => handleDeleteUser(uid)}
-                    title='delete'
-                >
+                    title='delete'>
                     <UserRoundMinus size={12} />
                 </Button>
             </div>
