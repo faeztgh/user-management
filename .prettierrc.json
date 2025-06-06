@@ -1,0 +1,29 @@
+{
+    "trailingComma": "es5",
+    "semi": true,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "htmlWhitespaceSensitivity": "css",
+    "insertPragma": false,
+    "jsxBracketSameLine": true,
+    "printWidth": 100,
+    "proseWrap": "always",
+    "quoteProps": "as-needed",
+    "requirePragma": false,
+    "endOfLine": "auto",
+    "formatOnSave": true,
+    "useTabs": false,
+    "embeddedLanguageFormatting": "auto",
+    "overrides": [
+        {
+            "files": "*.json",
+            "options": {
+                "parser": "json"
+            }
+        }
+    ],
+    "plugins": ["prettier-plugin-tailwindcss"]
+}
