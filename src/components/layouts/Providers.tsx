@@ -4,7 +4,7 @@ import React, { PropsWithChildren, Suspense } from "react";
 import { ThemeProvider, ThemeProviderProps } from "next-themes";
 import { Toaster as Sooner } from "@/components/ui/sonner";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 const theme: ThemeProviderProps = {
     attribute: "class",
     defaultTheme: "light",

@@ -1,5 +1,12 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Button } from "@/components/ui/button";
+import { UserRoundMinus } from "lucide-react";
+import { IUser } from "@/types/response-types/users";
+import { cn } from "@/lib/utils";
+import useMutation from "@/lib/api/useMutation";
+import { toast } from "sonner";
+import ApiRoutes from "@/constants/ApiRoutes";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -7,22 +14,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CaretDownIcon } from "@radix-ui/react-icons";
-import { UserRoundMinus } from "lucide-react";
-import { IUser } from "@/types/response-types/users";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { VirtualItem } from "@tanstack/react-virtual";
-import useMutation from "@/lib/api/useMutation";
-import { toast } from "sonner";
-import ApiRoutes from "@/constants/ApiRoutes";
+import { queryClient } from "@/components/layouts/Providers";
+import AddEditMemberDrawer from "../AddEditMemberDrawer";
+
 interface IListItemProps {
     user: IUser;
-    virtualRow: VirtualItem;
-    refetchUsers: () => void;
+    index: number;
 }
 
 const ListItem = (props: IListItemProps) => {
-    const { user, virtualRow, refetchUsers } = props;
+    const { user, index } = props;
     const { role, uid, name, avatar } = user;
 
     const { mutate: deleteUser, isPending: isDeleting } = useMutation({
@@ -32,6 +33,11 @@ const ListItem = (props: IListItemProps) => {
     const { mutate: updateUserRole, isPending: isUpdatingRole } = useMutation({
         method: "put",
     });
+    const refetchList = () => {
+        queryClient.refetchQueries({
+            queryKey: ["get_users_list"],
+        });
+    };
     const handleDeleteUser = (uid: string) => {
         deleteUser(
             {
@@ -41,8 +47,8 @@ const ListItem = (props: IListItemProps) => {
             },
             {
                 onSuccess: () => {
-                    refetchUsers();
-                    toast("Removed");
+                    refetchList();
+                    toast.success("Removed");
                 },
             }
         );
@@ -58,8 +64,8 @@ const ListItem = (props: IListItemProps) => {
             },
             {
                 onSuccess: () => {
-                    refetchUsers();
-                    toast("Updated");
+                    refetchList();
+                    toast.success("Updated");
                 },
             }
         );
@@ -67,25 +73,27 @@ const ListItem = (props: IListItemProps) => {
 
     return (
         <div
-            key={uid}
             className={cn(
                 "flex justify-between py-3 px-5 items-center border-b",
-                virtualRow.index === 0 ? "border-t" : "border-t-0"
+                index === 0 ? "border-t" : "border-t-0"
             )}
         >
-            <div className="items-center gap-2 flex ">
-                <Avatar className="w-fit">
-                    <AvatarImage src={avatar} />
-                    <AvatarFallback>{name.substring(0, 1)}</AvatarFallback>
-                </Avatar>{" "}
-                <span className=" min-w-[200px] w-fit">{name}</span>
-                {user?.metadata?.private?.email && (
-                    <span className="text-muted-foreground ml-8">
-                        {user?.metadata?.private?.email}
-                    </span>
-                )}
-            </div>
-            <div className="whitespace-nowrap flex justify-center items-center gap-x-3">
+            <AddEditMemberDrawer mode="edit" user={user}>
+                <div className="items-center w-full gap-2 flex">
+                    <Avatar>
+                        <AvatarImage src={avatar} />
+                        <AvatarFallback>{name.substring(0, 1)}</AvatarFallback>
+                    </Avatar>
+                    <span className=" min-w-[150px] w-fit">{name}</span>
+                    {user?.metadata?.private?.email && (
+                        <span className="text-muted-foreground ml-8">
+                            {user?.metadata?.private?.email}
+                        </span>
+                    )}
+                </div>
+            </AddEditMemberDrawer>
+
+            <div className="flex justify-center items-center gap-x-3">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild disabled={isUpdatingRole}>
                         <Button variant="secondary">
@@ -112,7 +120,7 @@ const ListItem = (props: IListItemProps) => {
                     onClick={() => handleDeleteUser(uid)}
                     title="delete"
                 >
-                    <UserRoundMinus size={12} className="" />
+                    <UserRoundMinus size={12} />
                 </Button>
             </div>
         </div>

@@ -9,7 +9,7 @@ const navItems = [
 
 const Header = () => {
     return (
-        <nav className="bg-muted border-b py-8 px-12">
+        <nav className="bg-muted border-b py-5 px-12">
             <ul className="flex justify-start items-center gap-x-5">
                 {navItems.map(({ label, route }) => (
                     <li key={label} className="text-xl font-semibold">

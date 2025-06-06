@@ -6,7 +6,7 @@ import { IUser, IUserData } from "@/types/response-types/users";
 import Table from "../Table/Table";
 import { Button } from "../ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { Plus, UserRoundMinus } from "lucide-react";
+import { Edit, Plus, UserRoundMinus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
     DropdownMenu,
@@ -17,6 +17,7 @@ import {
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import useMutation from "@/lib/api/useMutation";
 import { toast } from "sonner";
+import AddEditMemberDrawer from "./AddEditMemberDrawer";
 
 const Home = () => {
     const {
@@ -35,6 +36,7 @@ const Home = () => {
     const { mutate: updateUserRole, isPending: isUpdatingRole } = useMutation({
         method: "put",
     });
+
     const handleDeleteUser = (uid: string) => {
         deleteUser(
             {
@@ -45,7 +47,7 @@ const Home = () => {
             {
                 onSuccess: () => {
                     refetchUsers();
-                    toast("Removed");
+                    toast.success("Removed");
                 },
             }
         );
@@ -62,7 +64,7 @@ const Home = () => {
             {
                 onSuccess: () => {
                     refetchUsers();
-                    toast("Updated");
+                    toast.success("Updated");
                 },
             }
         );
@@ -92,10 +94,11 @@ const Home = () => {
             },
         },
         {
-            accessorKey: "metadata.email",
-            id: "metadata.email",
+            accessorKey: "metadata.private.email",
+            id: "metadata.private.email",
             header: "",
             enableSorting: false,
+            filterFn: "includesString",
         },
 
         {
@@ -109,7 +112,11 @@ const Home = () => {
                     <div className="whitespace-nowrap flex justify-center items-center gap-x-3">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="secondary">
+                                <Button
+                                    variant="secondary"
+                                    disabled={isUpdatingRole}
+                                    className="min-w-[110px] capitalize"
+                                >
                                     {row.original.role} <CaretDownIcon />
                                 </Button>
                             </DropdownMenuTrigger>
@@ -136,13 +143,22 @@ const Home = () => {
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
+                        <AddEditMemberDrawer mode="edit" user={row.original}>
+                            <Button variant="ghost" size="icon" title="edit">
+                                <Edit size={12} className="text-primary" />
+                            </Button>
+                        </AddEditMemberDrawer>
                         <Button
                             variant="ghost"
                             size="icon"
                             disabled={isDeleting}
                             title="delete"
+                            onClick={() => handleDeleteUser(row.original.uid)}
                         >
-                            <UserRoundMinus size={12} className="" />
+                            <UserRoundMinus
+                                size={12}
+                                className="text-destructive"
+                            />
                         </Button>
                     </div>
                 );
@@ -166,10 +182,12 @@ const Home = () => {
             }
             topActions={
                 <div>
-                    <Button>
-                        <Plus size={15} />
-                        Add member
-                    </Button>
+                    <AddEditMemberDrawer mode="add">
+                        <Button>
+                            <Plus size={15} />
+                            Add member
+                        </Button>
+                    </AddEditMemberDrawer>
                 </div>
             }
         />
