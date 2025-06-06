@@ -29,10 +29,11 @@ export function TableViewOptions<TData>(props: DataTableViewOptionsProps<TData>)
     const membersCount = table.getFilteredRowModel().rows.length;
     const isTopEmpty = !withHideColumn && !withSearch && !topActions && !filters;
     return (
-        <div className={`flex items-center ${isTopEmpty ? '' : 'py-4'}`}>
+        <div
+            className={`flex flex-col items-start space-y-3 md:flex-row md:items-center md:space-y-0 ${isTopEmpty ? '' : 'py-4'}`}>
             {/* Filter start */}
             {title && title}
-            <div className='ml-auto flex items-center justify-between gap-x-5'>
+            <div className='flex flex-col items-start justify-between gap-x-5 md:ml-auto md:flex-row md:items-center'>
                 <span className='text-muted-foreground'>{membersCount} members</span>
                 <div className='flex w-fit flex-wrap items-center gap-x-3'>
                     {withSearch && (
@@ -64,8 +65,7 @@ export function TableViewOptions<TData>(props: DataTableViewOptionsProps<TData>)
                                 <Button
                                     variant='ghost'
                                     onClick={() => table.resetColumnFilters()}
-                                    className='h-8 px-2 lg:px-3'
-                                >
+                                    className='h-8 px-2 lg:px-3'>
                                     {'reset'}
                                     <Cross2Icon className='ml-2 h-4 w-4' />
                                 </Button>
@@ -100,8 +100,7 @@ export function TableViewOptions<TData>(props: DataTableViewOptionsProps<TData>)
                                         key={column.id}
                                         className='capitalize'
                                         checked={column.getIsVisible()}
-                                        onCheckedChange={value => column.toggleVisibility(!!value)}
-                                    >
+                                        onCheckedChange={value => column.toggleVisibility(!!value)}>
                                         {column.id}
                                     </DropdownMenuCheckboxItem>
                                 );

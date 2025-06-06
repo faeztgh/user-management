@@ -19,7 +19,7 @@ import { TableViewOptions } from './TableViewOptions';
 import TableNoData from './TableNoData';
 import { TFilters } from './types';
 import { TableHeader } from './TableHeader';
-import { cn, fakeArray } from '@/lib/utils';
+import { fakeArray } from '@/lib/utils';
 import { Skeleton } from '../ui/skeleton';
 import React from 'react';
 import Config from '@/constants/Config';
@@ -113,22 +113,20 @@ const Table = <T extends object = any>(props: ITableProps<T>) => {
                         ) : (
                             <>
                                 {data && data.length > 0 && table?.getRowModel()?.rows?.length ? (
-                                    table.getRowModel().rows.map((row, i) => (
+                                    table.getRowModel().rows.map(row => (
                                         <TableRow
                                             // className={cn(
                                             //     i % 2 === 0 && "bg-muted"
                                             // )}
                                             key={row.id}
-                                            data-state={row.getIsSelected() && 'selected'}
-                                        >
+                                            data-state={row.getIsSelected() && 'selected'}>
                                             {row.getVisibleCells().map(cell => (
                                                 <TableCell
                                                     key={cell.id}
                                                     style={{
                                                         width: cell.column.getSize(),
                                                     }}
-                                                    width={cell.column.getSize()}
-                                                >
+                                                    width={cell.column.getSize()}>
                                                     {flexRender(
                                                         cell.column.columnDef.cell,
                                                         cell.getContext()
